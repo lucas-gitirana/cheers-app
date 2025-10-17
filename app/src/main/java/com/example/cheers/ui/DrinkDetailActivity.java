@@ -1,104 +1,124 @@
 package com.example.cheers.ui;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.cheers.R;
+import com.example.cheers.databinding.ActivityDrinkDetailBinding;
 import com.example.cheers.model.Drink;
+import com.example.cheers.model.DrinksResponse;
+import com.example.cheers.network.CocktailRepository;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DrinkDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_DRINK = "extra_drink";
-
-    private ImageView imageViewDrink;
-    private TextView textViewName, textViewInstructions, textViewIngredients;
-    private Button buttonFavorite;
     private DrinkDetailViewModel viewModel;
-    private Drink currentDrink;
+
+    private ActivityDrinkDetailBinding binding;
+    private CocktailRepository repository;
+    private Drink drink;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_drink_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityDrinkDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        imageViewDrink = findViewById(R.id.imageViewDrink);
-        textViewName = findViewById(R.id.textViewDrinkName);
-        textViewInstructions = findViewById(R.id.textViewInstructions);
-        textViewIngredients = findViewById(R.id.textViewIngredients);
-        buttonFavorite = findViewById(R.id.buttonFavorite);
-
-        Drink drink = (Drink) getIntent().getSerializableExtra(EXTRA_DRINK);
-        if (drink != null) {
-            textViewName.setText(drink.getName());
-            textViewInstructions.setText(drink.getInstructions());
-
-            StringBuilder ingredients = new StringBuilder();
-            for (int i = 0; i < drink.getIngredients().size(); i++) {
-                ingredients.append(drink.getIngredients().get(i))
-                        .append("\n");
-            }
-            textViewIngredients.setText(ingredients.toString());
-
-            Glide.with(this)
-                    .load(drink.getThumbnail())
-                    .into(imageViewDrink);
-        }
-
-        // Inicializa o ViewModel
         viewModel = new ViewModelProvider(this).get(DrinkDetailViewModel.class);
+        repository = new CocktailRepository();
+        drink = (Drink) getIntent().getSerializableExtra(EXTRA_DRINK);
 
-        Drink drinkFromIntent = (Drink) getIntent().getSerializableExtra(EXTRA_DRINK);
-
-        if (drinkFromIntent != null) {
-            // Observa o drink do banco de dados para obter o estado de favorito atualizado
-            viewModel.getDrinkById(drinkFromIntent.getId()).observe(this, drinkFromDb -> {
-                // Se o drink não está no banco, usamos o que veio da Intent
-                currentDrink = (drinkFromDb != null) ? drinkFromDb : drinkFromIntent;
-                updateUI(currentDrink);
-            });
+        if (drink == null) {
+            Toast.makeText(this, "Erro ao carregar o drink.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        buttonFavorite.setOnClickListener(v -> {
-            if (currentDrink != null) {
-                viewModel.toggleFavorite(currentDrink);
+        // Verifica se os dados estão completos
+        if (drink.getInstructions() == null || drink.getInstructions().isEmpty()) {
+            loadDrinkDetailsFromApi(drink.getId());
+        } else {
+            displayDrinkDetails(drink);
+        }
+
+        observeFavoriteState();
+        binding.buttonFavorite.setOnClickListener(v -> {
+            if (drink != null) {
+                viewModel.toggleFavorite(drink);
             }
         });
     }
 
-    private void updateUI(Drink drink) {
-        if (drink == null) return;
+    private void loadDrinkDetailsFromApi(String id) {
+        showLoading(true);
 
-        textViewName.setText(drink.getName());
-        textViewInstructions.setText(drink.getInstructions());
+        repository.getDrinkById(id).enqueue(new Callback<DrinksResponse>() {
+            @Override
+            public void onResponse(Call<DrinksResponse> call, Response<DrinksResponse> response) {
+                showLoading(false);
+                if (response.isSuccessful() && response.body() != null && !response.body().getDrinks().isEmpty()) {
+                    drink = response.body().getDrinks().get(0);
+                    drink.buildIngredientsList();
+                    displayDrinkDetails(drink);
+                } else {
+                    Toast.makeText(DrinkDetailActivity.this, "Detalhes não encontrados.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
 
-        // ... seu código para ingredientes e Glide
+            @Override
+            public void onFailure(Call<DrinksResponse> call, Throwable t) {
+                showLoading(false);
+                Toast.makeText(DrinkDetailActivity.this, "Falha ao carregar detalhes.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-        // Atualiza a aparência do botão de favorito
-        if (drink.isFavorite()) {
-            buttonFavorite.setText("Remover dos Favoritos");
-            // Opcional: mude o ícone ou a cor
-            // buttonFavorite.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_filled));
+    private void displayDrinkDetails(Drink drink) {
+        binding.textDrinkName.setText(drink.getName());
+        binding.textDrinkCategory.setText(drink.getCategoria() != null ? drink.getCategoria() : "Categoria desconhecida");
+        binding.textDrinkInstructions.setText(drink.getInstructions() != null ? drink.getInstructions() : "Sem instruções disponíveis");
+
+        // Exibe ingredientes, se existirem
+        if (drink.getIngredients() != null && !drink.getIngredients().isEmpty()) {
+            StringBuilder ingredients = new StringBuilder();
+            for (String ingredient : drink.getIngredients()) {
+                ingredients.append("• ").append(ingredient).append("\n");
+            }
+            binding.textDrinkIngredients.setText(ingredients.toString().trim());
         } else {
-            buttonFavorite.setText("Adicionar aos Favoritos");
-            // Opcional: mude o ícone ou a cor
-            // buttonFavorite.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_border));
+            binding.textDrinkIngredients.setText("Ingredientes não disponíveis.");
         }
+
+        // Exibe imagem
+        Glide.with(this)
+                .load(drink.getThumbnail())
+                .placeholder(android.R.color.darker_gray)
+                .into(binding.imageDrinkThumb);
+    }
+
+    private void observeFavoriteState() {
+        viewModel.isFavorite(drink.getId()).observe(this, isFavorite -> {
+            if (isFavorite) {
+                binding.buttonFavorite.setImageResource(R.drawable.ic_favorite_filled);
+            } else {
+                binding.buttonFavorite.setImageResource(R.drawable.ic_favorite_border);
+            }
+        });
+    }
+
+    private void showLoading(boolean isLoading) {
+        binding.progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        binding.contentLayout.setVisibility(isLoading ? View.GONE : View.VISIBLE);
     }
 }

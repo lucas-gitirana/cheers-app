@@ -22,6 +22,9 @@ public class Drink implements Serializable {
     @SerializedName("strDrink")
     private String name;
 
+    @SerializedName("strCategory")
+    private String categoria;
+
     @SerializedName("strInstructions")
     private String instructions;
 
@@ -56,6 +59,8 @@ public class Drink implements Serializable {
     public void setId(String id) { this.id = id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
 
     public String getInstructions() { return instructions; }
     public void setInstructions(String instructions) { this.instructions = instructions; }

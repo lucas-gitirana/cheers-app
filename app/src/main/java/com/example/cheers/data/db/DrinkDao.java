@@ -24,4 +24,7 @@ public interface DrinkDao {
 
     @Query("UPDATE favorite_drinks SET isFavorite = :isFavorite WHERE id = :drinkId")
     void updateFavoriteStatus(String drinkId, boolean isFavorite);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM favorite_drinks WHERE id = :drinkId LIMIT 1)")
+    LiveData<Boolean> isFavorite(String drinkId);
 }

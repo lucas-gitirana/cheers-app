@@ -27,6 +27,10 @@ public class DrinkDetailViewModel extends AndroidViewModel {
         return drinkDao.getDrinkById(drinkId);
     }
 
+    public LiveData<Boolean> isFavorite(String drinkId) {
+        return drinkDao.isFavorite(drinkId);
+    }
+
     public void toggleFavorite(Drink drink) {
         executorService.execute(() -> {
             boolean isCurrentlyFavorite = drink.isFavorite();
