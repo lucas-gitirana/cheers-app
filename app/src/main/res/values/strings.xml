@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cheers</string>
+    <string name="drink_image">Imagem do drink</string>
 </resources>

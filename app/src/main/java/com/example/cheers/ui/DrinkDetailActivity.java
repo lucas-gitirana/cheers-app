@@ -11,18 +11,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.cheers.R;
 import com.example.cheers.model.Drink;
 
-public class DrinkDetail extends AppCompatActivity {
+public class DrinkDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_DRINK = "extra_drink";
 
     private ImageView imageViewDrink;
     private TextView textViewName, textViewInstructions, textViewIngredients;
     private Button buttonFavorite;
+    private DrinkDetailViewModel viewModel;
+    private Drink currentDrink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +61,44 @@ public class DrinkDetail extends AppCompatActivity {
                     .into(imageViewDrink);
         }
 
+        // Inicializa o ViewModel
+        viewModel = new ViewModelProvider(this).get(DrinkDetailViewModel.class);
+
+        Drink drinkFromIntent = (Drink) getIntent().getSerializableExtra(EXTRA_DRINK);
+
+        if (drinkFromIntent != null) {
+            // Observa o drink do banco de dados para obter o estado de favorito atualizado
+            viewModel.getDrinkById(drinkFromIntent.getId()).observe(this, drinkFromDb -> {
+                // Se o drink não está no banco, usamos o que veio da Intent
+                currentDrink = (drinkFromDb != null) ? drinkFromDb : drinkFromIntent;
+                updateUI(currentDrink);
+            });
+        }
+
         buttonFavorite.setOnClickListener(v -> {
-            // Implementar a lógica de favoritar futuramente
-            Toast.makeText(this, "Favorito adicionado!", Toast.LENGTH_SHORT).show();
+            if (currentDrink != null) {
+                viewModel.toggleFavorite(currentDrink);
+            }
         });
+    }
+
+    private void updateUI(Drink drink) {
+        if (drink == null) return;
+
+        textViewName.setText(drink.getName());
+        textViewInstructions.setText(drink.getInstructions());
+
+        // ... seu código para ingredientes e Glide
+
+        // Atualiza a aparência do botão de favorito
+        if (drink.isFavorite()) {
+            buttonFavorite.setText("Remover dos Favoritos");
+            // Opcional: mude o ícone ou a cor
+            // buttonFavorite.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_filled));
+        } else {
+            buttonFavorite.setText("Adicionar aos Favoritos");
+            // Opcional: mude o ícone ou a cor
+            // buttonFavorite.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_border));
+        }
     }
 }

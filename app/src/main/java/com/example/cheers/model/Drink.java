@@ -1,13 +1,21 @@
 package com.example.cheers.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity(tableName = "favorite_drinks")
 public class Drink implements Serializable {
 
+    @PrimaryKey
+    @NonNull
     @SerializedName("idDrink")
     private String id;
 
@@ -20,23 +28,24 @@ public class Drink implements Serializable {
     @SerializedName("strDrinkThumb")
     private String thumbnail;
 
-    // Campos brutos para os ingredientes da API
-    @SerializedName("strIngredient1") private String strIngredient1;
-    @SerializedName("strIngredient2") private String strIngredient2;
-    @SerializedName("strIngredient3") private String strIngredient3;
-    @SerializedName("strIngredient4") private String strIngredient4;
-    @SerializedName("strIngredient5") private String strIngredient5;
-    @SerializedName("strIngredient6") private String strIngredient6;
-    @SerializedName("strIngredient7") private String strIngredient7;
-    @SerializedName("strIngredient8") private String strIngredient8;
-    @SerializedName("strIngredient9") private String strIngredient9;
-    @SerializedName("strIngredient10") private String strIngredient10;
-    @SerializedName("strIngredient11") private String strIngredient11;
-    @SerializedName("strIngredient12") private String strIngredient12;
-    @SerializedName("strIngredient13") private String strIngredient13;
-    @SerializedName("strIngredient14") private String strIngredient14;
-    @SerializedName("strIngredient15") private String strIngredient15;
+    private boolean isFavorite = false;
 
+    // Campos brutos para os ingredientes da API
+    @Ignore @SerializedName("strIngredient1") private String strIngredient1;
+    @Ignore @SerializedName("strIngredient2") private String strIngredient2;
+    @Ignore @SerializedName("strIngredient3") private String strIngredient3;
+    @Ignore @SerializedName("strIngredient4") private String strIngredient4;
+    @Ignore @SerializedName("strIngredient5") private String strIngredient5;
+    @Ignore @SerializedName("strIngredient6") private String strIngredient6;
+    @Ignore @SerializedName("strIngredient7") private String strIngredient7;
+    @Ignore @SerializedName("strIngredient8") private String strIngredient8;
+    @Ignore @SerializedName("strIngredient9") private String strIngredient9;
+    @Ignore @SerializedName("strIngredient10") private String strIngredient10;
+    @Ignore @SerializedName("strIngredient11") private String strIngredient11;
+    @Ignore @SerializedName("strIngredient12") private String strIngredient12;
+    @Ignore @SerializedName("strIngredient13") private String strIngredient13;
+    @Ignore @SerializedName("strIngredient14") private String strIngredient14;
+    @Ignore @SerializedName("strIngredient15") private String strIngredient15;
     private List<String> ingredients;
 
     public Drink() {
@@ -54,7 +63,19 @@ public class Drink implements Serializable {
     public String getThumbnail() { return thumbnail; }
     public void setThumbnail(String thumbnail) { this.thumbnail = thumbnail; }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     public List<String> getIngredients() { return ingredients; }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
+    }
 
     public void buildIngredientsList() {
         ingredients.clear();

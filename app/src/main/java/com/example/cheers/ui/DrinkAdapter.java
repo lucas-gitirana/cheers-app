@@ -86,8 +86,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.DrinkViewHol
     }
 
     private void openDrinkDetail(Drink drink) {
-        Intent intent = new Intent(context, DrinkDetail.class);
-        intent.putExtra(DrinkDetail.EXTRA_DRINK, drink);
+        Intent intent = new Intent(context, DrinkDetailActivity.class);
+        intent.putExtra(DrinkDetailActivity.EXTRA_DRINK, drink);
         context.startActivity(intent);
     }
 

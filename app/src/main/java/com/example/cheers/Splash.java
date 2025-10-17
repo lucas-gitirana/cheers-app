@@ -11,9 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.cheers.ui.Categories;
-import com.example.cheers.ui.Home;
-import com.example.cheers.ui.Search;
+import com.example.cheers.ui.HomeActivity;
 
 public class Splash extends AppCompatActivity {
 
@@ -35,7 +33,7 @@ public class Splash extends AppCompatActivity {
 //        }, 2000);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent i = new Intent(Splash.this, Home.class);
+            Intent i = new Intent(Splash.this, MainActivity.class);
             startActivity(i);
             finish();
         }, 2000);

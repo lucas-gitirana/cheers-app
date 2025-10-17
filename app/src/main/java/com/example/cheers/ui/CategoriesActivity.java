@@ -15,7 +15,7 @@ import com.example.cheers.R;
 
 import java.util.ArrayList;
 
-public class Categories extends AppCompatActivity {
+public class CategoriesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private CategoryAdapter adapter;

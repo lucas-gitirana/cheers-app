@@ -4,6 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Declara que o app usa a câmera -->
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
+    <!-- Pede a permissão de Câmera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,16 +20,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cheers">
         <activity
-            android:name=".ui.DrinkDetail"
+            android:name=".ui.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.Search"
+            android:name=".ui.FavoritesActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.Categories"
+            android:name=".ui.DrinkDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.Home"
+            android:name=".ui.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".Splash"

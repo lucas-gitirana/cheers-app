@@ -1,6 +1,5 @@
 package com.example.cheers.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -16,7 +15,7 @@ import com.example.cheers.R;
 
 import java.util.ArrayList;
 
-public class Home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private CocktailViewModel viewModel;
     private RecyclerView recyclerView;

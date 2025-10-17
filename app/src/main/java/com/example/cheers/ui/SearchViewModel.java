@@ -40,6 +40,12 @@ public class SearchViewModel extends AndroidViewModel {
             public void onResponse(Call<DrinksResponse> call, Response<DrinksResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Drink> drinks = response.body().getDrinks();
+
+                    if (drinks == null) {
+                        searchResults.postValue(new ArrayList<>());
+                        return;
+                    }
+
                     for (Drink drink : drinks) {
                         drink.buildIngredientsList();
                     }
