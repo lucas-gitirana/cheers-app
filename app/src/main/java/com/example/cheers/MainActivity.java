@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.cheers.ui.CameraActivity;
 import com.example.cheers.ui.FavoritesActivity;
 import com.example.cheers.ui.fragments.CategoriesFragment;
+import com.example.cheers.ui.fragments.CreationsFragment;
 import com.example.cheers.ui.fragments.HomeFragment;
 import com.example.cheers.ui.fragments.SearchFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -70,8 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
         } else if (itemId == R.id.nav_categories) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CategoriesFragment()).commit();
+        } else if (itemId == R.id.navigation_creations) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CreationsFragment()).commit();
         } else if (itemId == R.id.nav_favorites) {
-            // Para Favorites e Camera, iniciamos as Activities como antes.
             startActivity(new Intent(this, FavoritesActivity.class));
         } else if (itemId == R.id.nav_camera) {
             startActivity(new Intent(this, CameraActivity.class));

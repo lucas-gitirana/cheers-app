@@ -1,9 +1,14 @@
 package com.example.cheers.ui;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.cheers.R;
 import com.example.cheers.databinding.ActivityDrinkDetailBinding;
 import com.example.cheers.model.Drink;
+import com.example.cheers.model.DrinkCreation;
 import com.example.cheers.model.DrinksResponse;
 import com.example.cheers.network.CocktailRepository;
 
@@ -26,7 +32,29 @@ public class DrinkDetailActivity extends AppCompatActivity {
 
     private ActivityDrinkDetailBinding binding;
     private CocktailRepository repository;
-    private Drink drink;
+    private Drink currentDrink;
+
+    // Launcher para iniciar a CameraActivity e esperar o resultado
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri imageUri = result.getData().getData();
+                    if (imageUri != null && currentDrink != null) {
+                        // Salva a nova criação no banco de dados
+                        DrinkCreation creation = new DrinkCreation(
+                                currentDrink.getId(),
+                                currentDrink.getName(),
+                                imageUri.toString(),
+                                System.currentTimeMillis()
+                        );
+
+                        viewModel.addCreation(creation);
+                        Toast.makeText(this, "Sua criação foi salva!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,26 +64,31 @@ public class DrinkDetailActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(DrinkDetailViewModel.class);
         repository = new CocktailRepository();
-        drink = (Drink) getIntent().getSerializableExtra(EXTRA_DRINK);
+        currentDrink = (Drink) getIntent().getSerializableExtra(EXTRA_DRINK);
 
-        if (drink == null) {
+        if (currentDrink == null) {
             Toast.makeText(this, "Erro ao carregar o drink.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
         // Verifica se os dados estão completos
-        if (drink.getInstructions() == null || drink.getInstructions().isEmpty()) {
-            loadDrinkDetailsFromApi(drink.getId());
+        if (currentDrink.getInstructions() == null || currentDrink.getInstructions().isEmpty()) {
+            loadDrinkDetailsFromApi(currentDrink.getId());
         } else {
-            displayDrinkDetails(drink);
+            displayDrinkDetails(currentDrink);
         }
 
         observeFavoriteState();
         binding.buttonFavorite.setOnClickListener(v -> {
-            if (drink != null) {
-                viewModel.toggleFavorite(drink);
+            if (currentDrink != null) {
+                viewModel.toggleFavorite(currentDrink);
             }
+        });
+
+        binding.buttonAddCreation.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CameraActivity.class);
+            cameraLauncher.launch(intent);
         });
     }
 
@@ -67,9 +100,9 @@ public class DrinkDetailActivity extends AppCompatActivity {
             public void onResponse(Call<DrinksResponse> call, Response<DrinksResponse> response) {
                 showLoading(false);
                 if (response.isSuccessful() && response.body() != null && !response.body().getDrinks().isEmpty()) {
-                    drink = response.body().getDrinks().get(0);
-                    drink.buildIngredientsList();
-                    displayDrinkDetails(drink);
+                    currentDrink = response.body().getDrinks().get(0);
+                    currentDrink.buildIngredientsList();
+                    displayDrinkDetails(currentDrink);
                 } else {
                     Toast.makeText(DrinkDetailActivity.this, "Detalhes não encontrados.", Toast.LENGTH_SHORT).show();
                     finish();
@@ -108,7 +141,19 @@ public class DrinkDetailActivity extends AppCompatActivity {
     }
 
     private void observeFavoriteState() {
-        viewModel.isFavorite(drink.getId()).observe(this, isFavorite -> {
+        viewModel.getAllFavoriteDrinks().observe(this, favoriteDrinks -> {
+            if (favoriteDrinks == null || currentDrink == null) {
+                return;
+            }
+
+            boolean isFavorite = false;
+            for (Drink favDrink : favoriteDrinks) {
+                if (favDrink.getId().equals(currentDrink.getId())) {
+                    isFavorite = true;
+                    break;
+                }
+            }
+
             if (isFavorite) {
                 binding.buttonFavorite.setImageResource(R.drawable.ic_favorite_filled);
             } else {

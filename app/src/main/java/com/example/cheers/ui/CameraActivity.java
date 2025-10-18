@@ -1,7 +1,9 @@
 package com.example.cheers.ui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -138,6 +140,25 @@ public class CameraActivity extends AppCompatActivity {
                 .build();
 
         // Tira a foto
+//        imageCapture.takePicture(
+//                outputOptions,
+//                ContextCompat.getMainExecutor(this),
+//                new ImageCapture.OnImageSavedCallback() {
+//                    @Override
+//                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
+//                        String msg = "Foto salva com sucesso: " + output.getSavedUri();
+//                        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, msg);
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull ImageCaptureException exc) {
+//                        Log.e(TAG, "Falha ao salvar a foto: ", exc);
+//                    }
+//                }
+//        );
+
+        //Atualização para retornar a URI
         imageCapture.takePicture(
                 outputOptions,
                 ContextCompat.getMainExecutor(this),
@@ -147,11 +168,21 @@ public class CameraActivity extends AppCompatActivity {
                         String msg = "Foto salva com sucesso: " + output.getSavedUri();
                         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
                         Log.d(TAG, msg);
+
+                        // --- INÍCIO DA MODIFICAÇÃO ---
+                        // Cria um Intent para devolver o resultado
+                        Intent resultIntent = new Intent();
+                        resultIntent.setData(output.getSavedUri()); // Envia a URI da imagem salva
+                        setResult(Activity.RESULT_OK, resultIntent); // Define o resultado como OK
+                        finish(); // Fecha a CameraActivity e volta para a tela anterior
+                        // --- FIM DA MODIFICAÇÃO ---
                     }
 
                     @Override
                     public void onError(@NonNull ImageCaptureException exc) {
                         Log.e(TAG, "Falha ao salvar a foto: ", exc);
+                        setResult(Activity.RESULT_CANCELED); // Informa que deu erro
+                        finish();
                     }
                 }
         );

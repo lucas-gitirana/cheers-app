@@ -25,6 +25,10 @@
                 android:id="@+id/nav_camera"
                 android:icon="@drawable/ic_camera"
                 android:title="Câmera" />
+            <item
+                android:id="@+id/navigation_creations"
+                android:icon="@drawable/ic_photo_library"
+                android:title="Criações" />
         </menu>
     </item>
 </menu>

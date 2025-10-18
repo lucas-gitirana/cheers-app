@@ -9,12 +9,14 @@ import androidx.room.TypeConverters;
 
 import com.example.cheers.data.db.converter.Converters;
 import com.example.cheers.model.Drink;
+import com.example.cheers.model.DrinkCreation;
 
-@Database(entities = {Drink.class}, version = 1, exportSchema = false)
+@Database(entities = {Drink.class, DrinkCreation.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract DrinkDao drinkDao();
+    public abstract DrinkCreationDao drinkCreationDao();
 
     private static volatile AppDatabase INSTANCE;
 
