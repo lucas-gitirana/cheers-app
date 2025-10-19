@@ -75,4 +75,7 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.4")
     implementation("com.google.guava:guava:33.2.1-android")
 
+    //Worker
+    implementation("androidx.work:work-runtime:2.9.0")
+
 }

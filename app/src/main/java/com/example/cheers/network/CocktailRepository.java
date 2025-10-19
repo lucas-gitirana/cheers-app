@@ -41,4 +41,8 @@ public class CocktailRepository {
         return api.getDrinkById(id);
     }
 
+    public Call<DrinksResponse> getRandomDrink() {
+        return api.getRandomDrink();
+    }
+
 }
