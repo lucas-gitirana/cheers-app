@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary">#D5A6A1</color>        <!-- Rosa suave -->
+    <color name="primaryDark">#A47E78</color>    <!-- Rosa terroso -->
+    <color name="accent">#C57C74</color>         <!-- Destaque -->
+    <color name="background">#F7F3F2</color>     <!-- Fundo claro -->
+    <color name="textPrimary">#2B2B2B</color>    <!-- Texto escuro -->
+    <color name="textSecondary">#7B7B7B</color>  <!-- Texto suave -->
+    <color name="cardBackground">#EBD8D5</color> <!-- Cartões -->
 </resources>

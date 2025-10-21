@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481624006945",
+    "project_id": "cheers-a216c",
+    "storage_bucket": "cheers-a216c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481624006945:android:019f273df87018ffdc5e60",
+        "android_client_info": {
+          "package_name": "com.example.cheers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG7ccL5zMTmlBnP26RLl3KXQ4Li3pi-e0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

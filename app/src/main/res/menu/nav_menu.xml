@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:checkableBehavior="single"
+        android:menuCategory="container">
+
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="Home"
+            app:iconTint="@color/primaryDark" />
+
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_search"
-            android:title="Search" />
+            android:title="Buscar"
+            app:iconTint="@color/primaryDark" />
+
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_category"
-            android:title="Categories" />
+            android:title="Categorias"
+            app:iconTint="@color/primaryDark" />
+
     </group>
 
     <item android:title="Outros">
@@ -20,15 +31,22 @@
             <item
                 android:id="@+id/nav_favorites"
                 android:icon="@drawable/ic_favorite"
-                android:title="Favoritos" />
+                android:title="Favoritos"
+                app:iconTint="@color/primaryDark" />
+
             <item
                 android:id="@+id/nav_camera"
                 android:icon="@drawable/ic_camera"
-                android:title="Câmera" />
+                android:title="Câmera"
+                app:iconTint="@color/primaryDark" />
+
             <item
                 android:id="@+id/navigation_creations"
                 android:icon="@drawable/ic_photo_library"
-                android:title="Criações" />
+                android:title="Minhas Criações"
+                app:iconTint="@color/primaryDark" />
+
         </menu>
     </item>
+
 </menu>

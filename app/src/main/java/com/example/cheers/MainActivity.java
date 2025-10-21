@@ -19,6 +19,8 @@ import com.example.cheers.ui.fragments.CreationsFragment;
 import com.example.cheers.ui.fragments.HomeFragment;
 import com.example.cheers.ui.fragments.SearchFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Firebase;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
@@ -82,5 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Fecha o menu após o clique.
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
+     
     }
 }

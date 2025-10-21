@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Estilo base do texto -->
+    <style name="CheersText">
+        <item name="android:fontFamily">@font/the_girl_next_door</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- Título principal -->
+    <style name="CheersTitle" parent="CheersText">
+        <item name="android:textColor">@color/primaryDark</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Texto secundário -->
+    <style name="CheersTextSecondary" parent="CheersText">
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Botões principais -->
+    <style name="CheersButton" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/the_girl_next_door</item>
+        <item name="android:padding">10dp</item>
+        <!-- Removido cornerRadius - será controlado pelo shape -->
+        <item name="android:elevation">4dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Cheers.Button</item>
+    </style>
+
+    <!-- Cartões -->
+    <style name="CheersCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/cardBackground</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">6dp</item>
+    </style>
+
+    <!-- Campos de texto -->
+    <style name="CheersEditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="boxStrokeColor">@color/primaryDark</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:fontFamily">@font/the_girl_next_door</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Cheers.SmallComponent</item>
+    </style>
+
+    <!-- NavigationView -->
+    <style name="Widget.Cheers.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="itemIconTint">@color/primaryDark</item>
+        <item name="itemTextColor">@color/textPrimary</item>
+        <item name="itemBackground">@drawable/navigation_item_background</item>
+    </style>
+
+    <!-- Shape Appearances -->
+    <style name="ShapeAppearance.Cheers.Button" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Cheers.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+</resources>

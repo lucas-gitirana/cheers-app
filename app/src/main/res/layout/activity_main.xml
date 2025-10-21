@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- O DrawerLayout é o container raiz para um layout com Navigation Drawer. -->
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,39 +6,47 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".MainActivity"
-    tools:openDrawer="start"> <!-- Ajuda a pré-visualizar o menu aberto no editor -->
+    tools:openDrawer="start">
 
     <!-- 1. Conteúdo Principal da Tela -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background">
 
         <!-- Toolbar que ficará no topo da tela -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@color/primary"
+            app:titleTextColor="@color/white"
+            app:navigationIconTint="@color/white"
+            app:title="Cheers"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <!-- FrameLayout: É aqui que os Fragments (Home, Search, etc.) serão carregados -->
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/background" />
 
     </LinearLayout>
 
     <!-- 2. O Menu Deslizante (Navigation View) -->
-    <!-- Este é o conteúdo do menu que desliza da borda. -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/cardBackground"
+        app:itemIconTint="@color/primaryDark"
+        app:itemTextColor="@color/textPrimary"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu" />
 
