@@ -22,4 +22,6 @@ public interface CocktailApi {
     @GET("lookup.php")
     Call<DrinksResponse> getDrinkById(@Query("i") String id);
 
+    @GET("random.php")
+    Call<DrinksResponse> getRandomDrink();
 }

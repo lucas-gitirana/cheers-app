@@ -32,25 +32,17 @@ public class FavoritesActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarFavorites);
         recyclerViewFavorites = findViewById(R.id.recyclerViewFavorites);
         textViewNoFavorites = findViewById(R.id.textViewNoFavorites);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Configurar a Toolbar
-        toolbar.setNavigationOnClickListener(v -> finish()); // Ação de voltar
-
-        // Configurar RecyclerView e Adapter
         setupRecyclerView();
 
-        // Obter o ViewModel
         viewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
-
-        // Observar a lista de favoritos
         viewModel.getFavoriteDrinks().observe(this, favorites -> {
             updateUI(favorites);
         });
 
-        // Configurar o clique em um item favorito para abrir os detalhes
         favoritesAdapter.setOnItemClickListener(drink -> {
             Intent intent = new Intent(FavoritesActivity.this, DrinkDetailActivity.class);
-            // É crucial passar o objeto Drink para a próxima tela
             intent.putExtra(DrinkDetailActivity.EXTRA_DRINK, drink);
             startActivity(intent);
         });
@@ -59,17 +51,14 @@ public class FavoritesActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         favoritesAdapter = new FavoritesAdapter();
         recyclerViewFavorites.setAdapter(favoritesAdapter);
-        // O LayoutManager (GridLayoutManager) já foi definido no XML.
     }
 
     private void updateUI(List<Drink> favorites) {
         if (favorites != null && !favorites.isEmpty()) {
-            // Use a classe View padrão do Android
             recyclerViewFavorites.setVisibility(View.VISIBLE);
             textViewNoFavorites.setVisibility(View.GONE);
             favoritesAdapter.setFavorites(favorites);
         } else {
-            // Se não houver favoritos, mostra a mensagem e esconde a lista.
             recyclerViewFavorites.setVisibility(View.GONE);
             textViewNoFavorites.setVisibility(View.VISIBLE);
         }
