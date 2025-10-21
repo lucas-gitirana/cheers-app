@@ -1,12 +1,7 @@
 package com.example.cheers.network;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.cheers.model.CategoriesResponse;
-import com.example.cheers.model.DrinkCreation;
 import com.example.cheers.model.DrinksResponse;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;

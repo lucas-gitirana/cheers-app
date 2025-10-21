@@ -18,7 +18,6 @@ import java.util.List;
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoriteViewHolder> {
 
     private List<Drink> favoriteDrinks = new ArrayList<>();
-    // Opcional: listener para cliques
     private OnItemClickListener listener;
 
     @NonNull
@@ -44,7 +43,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         notifyDataSetChanged();
     }
 
-    // ViewHolder que segura a view de cada item
     class FavoriteViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewFavorite;
 

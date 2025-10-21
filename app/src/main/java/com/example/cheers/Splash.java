@@ -26,12 +26,6 @@ public class Splash extends AppCompatActivity {
             return insets;
         });
 
-//        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-//            Intent i = new Intent(Splash.this, Home.class);
-//            startActivity(i);
-//            finish();
-//        }, 2000);
-
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent i = new Intent(Splash.this, MainActivity.class);
             startActivity(i);

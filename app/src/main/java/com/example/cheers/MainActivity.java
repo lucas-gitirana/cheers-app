@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // O "toggle" é o ícone de menu (hambúrguer) que abre e fecha o drawer.
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -106,16 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void scheduleRandomDrinkWorker() {
-        // 1. Define a requisição para rodar periodicamente (ex: a cada 24 horas)
+        // Define a requisição para rodar periodicamente (ex: a cada 24 horas)
         PeriodicWorkRequest randomDrinkRequest =
                 new PeriodicWorkRequest.Builder(RandomDrinkWorker.class, 24, TimeUnit.HOURS)
-                        // Você pode adicionar restrições, como "rodar apenas com Wi-Fi"
-                        // .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).build())
                         .build();
 
-        // 2. Agenda a tarefa usando um nome único.
-        // A política REPLACE garante que, se já houver uma tarefa com esse nome, ela será substituída.
-        // Isso evita criar tarefas duplicadas toda vez que o app abre.
+        // Agenda a tarefa usando um nome único.
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
                 "randomDrinkSuggestion",
                 ExistingPeriodicWorkPolicy.REPLACE,
@@ -124,11 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void requestNotificationPermission() {
-        // A permissão só é necessária para Android 13 (TIRAMISU) ou superior
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Verifica se a permissão AINDA NÃO foi concedida
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                // Solicita a permissão ao usuário
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_PERMISSION_CODE);
             }
         }
