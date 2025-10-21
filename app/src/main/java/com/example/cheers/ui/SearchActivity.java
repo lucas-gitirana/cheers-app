@@ -51,10 +51,9 @@ public class SearchActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
 
-        // Listener para digitação dinâmica
         editTextSearch.addTextChangedListener(new TextWatcher() {
             private Timer timer = new Timer();
-            private final long DELAY = 500; // meio segundo após digitar
+            private final long DELAY = 500;
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }

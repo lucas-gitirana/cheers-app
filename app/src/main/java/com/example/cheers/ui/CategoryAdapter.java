@@ -85,7 +85,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private void openDrinkDetail(Drink drink) {
         Intent intent = new Intent(context, DrinkDetailActivity.class);
-        intent.putExtra(DrinkDetailActivity.EXTRA_DRINK, drink); // Drink deve ser Serializable ou Parcelable
+        intent.putExtra(DrinkDetailActivity.EXTRA_DRINK, drink);
         context.startActivity(intent);
     }
 

@@ -47,10 +47,8 @@ public class CameraActivity extends AppCompatActivity {
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
-                    // Permissão concedida, podemos iniciar a câmera
                     startCamera();
                 } else {
-                    // Permissão negada. Informe o usuário e feche a activity.
                     Toast.makeText(this, "Permissão de câmera necessária.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -64,51 +62,33 @@ public class CameraActivity extends AppCompatActivity {
         previewView = findViewById(R.id.previewView);
         buttonCapture = findViewById(R.id.buttonCapture);
 
-        // Cria uma thread dedicada para a câmera para não bloquear a UI
         cameraExecutor = Executors.newSingleThreadExecutor();
-
-        // Verifica e pede a permissão
         requestCameraPermission();
-
-        // Configura o listener do botão de captura
         buttonCapture.setOnClickListener(v -> takePhoto());
     }
 
     private void requestCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            // Permissão já concedida
             startCamera();
         } else {
-            // Pede a permissão
             requestPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
     }
 
     private void startCamera() {
-        // Obtém a instância do provedor de câmera. Isso é assíncrono.
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
 
         cameraProviderFuture.addListener(() -> {
             try {
-                // O provedor de câmera está disponível.
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
 
-                // 1. Configurar o caso de uso: Preview
                 Preview preview = new Preview.Builder().build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
-                // 2. Configurar o caso de uso: ImageCapture
                 imageCapture = new ImageCapture.Builder().build();
 
-                // Seleciona a câmera traseira como padrão
                 CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
-
-                // Desvincula qualquer caso de uso anterior antes de vincular os novos
                 cameraProvider.unbindAll();
-
-                // Vincula os casos de uso ao ciclo de vida da Activity
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
-
             } catch (Exception e) {
                 Log.e(TAG, "Falha ao iniciar a câmera", e);
             }
@@ -120,11 +100,9 @@ public class CameraActivity extends AppCompatActivity {
             return;
         }
 
-        // Cria um nome de arquivo único baseado na data/hora
         String name = new SimpleDateFormat(FILENAME_FORMAT, Locale.US)
                 .format(System.currentTimeMillis());
 
-        // Define os metadados para salvar a imagem na galeria do dispositivo
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
@@ -132,31 +110,11 @@ public class CameraActivity extends AppCompatActivity {
             contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Cheers-App");
         }
 
-        // Configura as opções de saída para salvar o arquivo
         ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions
                 .Builder(getContentResolver(),
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 contentValues)
                 .build();
-
-        // Tira a foto
-//        imageCapture.takePicture(
-//                outputOptions,
-//                ContextCompat.getMainExecutor(this),
-//                new ImageCapture.OnImageSavedCallback() {
-//                    @Override
-//                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
-//                        String msg = "Foto salva com sucesso: " + output.getSavedUri();
-//                        Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
-//                        Log.d(TAG, msg);
-//                    }
-//
-//                    @Override
-//                    public void onError(@NonNull ImageCaptureException exc) {
-//                        Log.e(TAG, "Falha ao salvar a foto: ", exc);
-//                    }
-//                }
-//        );
 
         //Atualização para retornar a URI
         imageCapture.takePicture(
@@ -169,19 +127,16 @@ public class CameraActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
                         Log.d(TAG, msg);
 
-                        // --- INÍCIO DA MODIFICAÇÃO ---
-                        // Cria um Intent para devolver o resultado
                         Intent resultIntent = new Intent();
-                        resultIntent.setData(output.getSavedUri()); // Envia a URI da imagem salva
-                        setResult(Activity.RESULT_OK, resultIntent); // Define o resultado como OK
-                        finish(); // Fecha a CameraActivity e volta para a tela anterior
-                        // --- FIM DA MODIFICAÇÃO ---
+                        resultIntent.setData(output.getSavedUri());
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
                     }
 
                     @Override
                     public void onError(@NonNull ImageCaptureException exc) {
                         Log.e(TAG, "Falha ao salvar a foto: ", exc);
-                        setResult(Activity.RESULT_CANCELED); // Informa que deu erro
+                        setResult(Activity.RESULT_CANCELED);
                         finish();
                     }
                 }
@@ -191,7 +146,6 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Libera a thread da câmera quando a activity for destruída
         cameraExecutor.shutdown();
     }
 }

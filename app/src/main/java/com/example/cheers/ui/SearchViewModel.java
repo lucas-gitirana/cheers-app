@@ -31,7 +31,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     public void searchDrinks(String query) {
         if (query == null || query.trim().isEmpty()) {
-            searchResults.postValue(new ArrayList<>()); // limpa lista
+            searchResults.postValue(new ArrayList<>());
             return;
         }
 
