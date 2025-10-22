@@ -33,6 +33,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.concurrent.TimeUnit;
 
+import com.google.firebase.Firebase;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int NOTIFICATION_PERMISSION_CODE = 101;
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Fecha o menu após o clique.
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
+
     }
 
     private void scheduleRandomDrinkWorker() {

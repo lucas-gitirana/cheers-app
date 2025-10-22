@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -77,5 +78,7 @@ dependencies {
 
     //Worker
     implementation("androidx.work:work-runtime:2.9.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
 
 }

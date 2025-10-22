@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.FavoritesActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarFavorites"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:titleTextColor="@color/white"
+        app:navigationIconTint="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,8 +24,9 @@
         android:id="@+id/recyclerViewFavorites"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:padding="16dp"
         android:clipToPadding="false"
+        android:background="@color/background"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         app:layout_constraintTop_toBottomOf="@id/toolbarFavorites"
@@ -33,9 +38,12 @@
     <!-- Mensagem para quando não houver favoritos -->
     <TextView
         android:id="@+id/textViewNoFavorites"
+        style="@style/CheersTextSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Você ainda não tem drinks favoritos."
+        android:gravity="center"
+        android:padding="32dp"
+        android:text="Você ainda não tem drinks favoritos.\n\nExplore nossa coleção e salve seus preferidos! ❤️"
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

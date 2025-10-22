@@ -1,8 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.fragments.CreationsFragment">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCreations"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:background="@color/background"
+        tools:listitem="@layout/item_creation" />
+
+    <TextView
+        android:id="@+id/textViewNoCreations"
+        style="@style/CheersTextSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="32dp"
+        android:text="Você ainda não criou nenhum drink.\n\nTire fotos dos seus drinks favoritos! 📸"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 </FrameLayout>

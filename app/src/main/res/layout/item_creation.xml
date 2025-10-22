@@ -1,14 +1,16 @@
-<!-- Em: res/layout/item_creation.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    style="@style/CheersCard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/imageCreation"
@@ -23,16 +25,34 @@
 
         <TextView
             android:id="@+id/textCreationDrinkName"
+            style="@style/CheersTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textColor="@android:color/white"
-            android:background="#80000000"
-            android:padding="4dp"
+            android:background="@drawable/background_text_overlay"
+            android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/imageCreation"
             app:layout_constraintStart_toStartOf="@id/imageCreation"
             tools:text="Margarita" />
+
+        <TextView
+            android:id="@+id/textCreationDate"
+            style="@style/CheersTextSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/background_text_overlay"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageCreation"
+            app:layout_constraintEnd_toEndOf="@id/imageCreation"
+            tools:text="15/12/2023" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

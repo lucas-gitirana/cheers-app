@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/background_light">
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
@@ -18,70 +19,157 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageDrinkThumb"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/drink_image" />
-
-            <TextView
-                android:id="@+id/textDrinkName"
+            <!-- Card para a imagem do drink -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="22sp"
+                style="@style/CheersCard"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/imageDrinkThumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/drink_image" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card para informações do drink -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CheersCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/textDrinkName"
+                        style="@style/CheersTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Nome do Drink" />
+
+                    <TextView
+                        android:id="@+id/textDrinkCategory"
+                        style="@style/CheersTextSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:text="Categoria" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card para ingredientes -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CheersCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        style="@style/CheersTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingredientes"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textDrinkIngredients"
+                        style="@style/CheersText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Lista de ingredientes..." />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card para instruções -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CheersCard"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        style="@style/CheersTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Modo de Preparo"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textDrinkInstructions"
+                        style="@style/CheersText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Instruções de preparo..." />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Área de ações -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="center"
-                android:paddingTop="12dp" />
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/textDrinkCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/darker_gray"
-                android:gravity="center"
-                android:paddingBottom="8dp" />
+                <ImageButton
+                    android:id="@+id/buttonFavorite"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_favorite_border"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Favoritar Drink"
+                    app:tint="@color/primaryDark" />
 
-            <TextView
-                android:id="@+id/textDrinkIngredients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:paddingTop="10dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonAddCreation"
+                    style="@style/CheersButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:text="Eu fiz este drink!"
+                    app:icon="@drawable/ic_camera" />
 
-            <TextView
-                android:id="@+id/textDrinkInstructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:paddingTop="12dp" />
-
-            <ImageButton
-                android:id="@+id/buttonFavorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_favorite_border"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_margin="16dp"
-                android:contentDescription="Favoritar Drink" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonAddCreation"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Eu fiz este drink! Tire uma foto"
-                app:icon="@drawable/ic_camera" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:indeterminateTint="@color/primaryDark"
         android:visibility="gone" />
 </LinearLayout>
