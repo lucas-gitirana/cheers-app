@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,10 +46,12 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     class FavoriteViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewFavorite;
+        private TextView textFavoriteDrinkName;
 
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewFavorite = itemView.findViewById(R.id.imageViewFavoriteDrink);
+            textFavoriteDrinkName = itemView.findViewById(R.id.textFavoriteDrinkName);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -64,6 +67,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_foreground)
                     .into(imageViewFavorite);
+
+            textFavoriteDrinkName.setText(drink.getName());
         }
     }
 
